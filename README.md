@@ -33,7 +33,7 @@ pip install -r requirements/development.txt
 
 ```
 python manage.py migrate user
-python manage,py migrate
+python manage.py migrate
 ```
 
 - Start the server.
