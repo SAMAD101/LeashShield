@@ -41,38 +41,3 @@ python manage.py migrate
 ```
 python manage.py runserver
 ```
-
-
-
-# Process to Setup Frontend
-## :information_source: Requirements
-
-- [Node.js](https://nodejs.org/en/)
-- [npm](https://www.npmjs.com/)
-  
-**Fork/Clone the repository then**
-**move to reactapp**
-
-```
-cd reactapp
-```
-
-**To install this project**
-
-```
-npm install
-```
-
-**To run the server**
-
-```
-npm start
-```
-
-**To build the app**
-
-```
-npm run build
-```
-
----
