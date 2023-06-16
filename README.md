@@ -32,7 +32,7 @@ pip install -r requirements/development.txt
 - Migrate Django models.
 
 ```
-python manage.py migrate user
+python manage.py migrate users
 python manage.py migrate
 ```
 
