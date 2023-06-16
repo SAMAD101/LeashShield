@@ -57,7 +57,7 @@ ROOT_URLCONF = 'password_manager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'reactapp/frontend/')],
+        'DIRS': [os.path.join(BASE_DIR, 'reactapp/frontend/build/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,7 +120,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'reactapp/frontend/dist/assets')
+    os.path.join(BASE_DIR, 'reactapp/frontend/build/static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
