@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .modals import CustomUser
+from .models import CustomUser
 from django.contrib.auth import authenticate, login
 
 
