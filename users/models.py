@@ -3,22 +3,19 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager, Permission
 from django.utils import timezone
 
 class CustomUserManager(BaseUserManager):
-    def _create_user(self, username, email, masterpassword, **extra_fields):
+    def _create_user(self, username, email, password, **extra_fields):
         if not username:
             raise ValueError('The given username must be set')
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
-        if not masterpassword:
-            raise ValueError('The given masterpassword must be set')
         
         user = self.model(
             username=username,
             email=email,
-            masterpassword=masterpassword,
             **extra_fields
             )
-        user.set_password(masterpassword)
+        user.set_password(password)
         user.save()
         return user
     
@@ -37,7 +34,6 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True)
-    masterpassword = models.CharField(max_length=100)
     date_joined = models.DateTimeField(default=timezone.now)
 
     class Meta:
