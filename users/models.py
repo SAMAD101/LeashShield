@@ -42,3 +42,11 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+class Passwords(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    url = models.CharField(max_length=100)
+    saved_password = models.CharField(max_length=100)
+    date_added = models.DateTimeField(default=timezone.now)
+    
+    

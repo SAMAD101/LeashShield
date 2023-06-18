@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user }} | Dashboard - PassMan{% endblock %}
+
+{% block body %}
+    {% for password in passwords %}
+    <ul>
+        <li>{{ password.user }}</li>
+        <li>{{ password.url }}</li>
+        <li>{{ password.saved_password }}</li>
+        <li>{{ password.date_added }}</li>
+    </ul>
+    {% endfor %}
+
+{% endblock %}

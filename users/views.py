@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import CustomUser
+from .models import CustomUser, Passwords
 from django.contrib.auth import authenticate, login
 
 
@@ -13,10 +13,10 @@ def LoginView(request):
         user = authenticate(username=username, password=masterpassword)
         if user is not None:
             login(request, user)
-            return redirect('index')
+            return redirect('dashboard/?user='+username)
         else:
             return render(request, 'login.html', {'error_message': 'Invalid login'})   
-    return render(request, '#')
+    return render(request, 'users/login.html')
 
 def RegisterView(request):
     if request.method == 'POST':
@@ -36,4 +36,12 @@ def RegisterView(request):
         return redirect('login')
     else:
         return HttpResponse('Password does not match')
-    return render(request, '#')
+    return render(request, 'users/register.html')
+
+def DashboardView(request):
+    passwords = Passwords.objects.filter(user=request.user)
+    contexts = {
+        'passwords': passwords,
+        'user': request.user,
+    }
+    return render(request, 'users/dashboard.html', contexts)
