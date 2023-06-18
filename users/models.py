@@ -36,6 +36,10 @@ class CustomUser(AbstractUser):
     email = models.EmailField(max_length=100, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
+    objects = CustomUserManager()
+    USERNAME_FIELD = 'username'
+    EMAIL_FIELD = 'email'
+    REQUIRED_FIELDS = ['user', 'email']    
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'

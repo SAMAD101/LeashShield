@@ -4,16 +4,18 @@ from .models import CustomUser, Passwords
 from django.contrib.auth import authenticate, login
 
 
-def LoginView(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        emial = request.POST.get('email')
-        masterpassword = request.POST.get('masterpassword')
-                
-        user = authenticate(username=username, password=masterpassword)
-        login(request, user)
-        return redirect('dashboard/?user='+username)
-    return redirect('redirect')
+def LoginView(response):
+    if response.method == 'POST':
+        username = response.POST.get('username')
+        email = response.POST.get('email')
+        password = response.POST.get('password') # masterpassword
+        user = authenticate(response, username=username, password=password)
+        
+        if user is not None:
+            if user.is_active:
+                login(response, user)
+                return redirect('/user/dashboard/?username='+username)
+    return render(response, 'users/login.html')
 
 def RegisterView(response):
     if response.method == 'POST':
@@ -31,7 +33,11 @@ def RegisterView(response):
     return render(response, 'users/register.html')
 
 def DashboardView(request):
-    passwords = Passwords.objects.filter(user=request.user)
+    user = CustomUser.objects.filter(username=request.GET.get('username'))
+    passwords = [];
+    for password in Passwords.objects.filter(user=user[0]):
+        passwords.append(password)
+    
     contexts = {
         'passwords': passwords,
         'user': request.user,
