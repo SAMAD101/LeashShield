@@ -45,8 +45,12 @@
         <h1 class="text-4xl mx-4 px-0 font-bold ">PassMan- Secure Password Manager</h1>
         <p class="w-3/4 mx-5 text-left py-5 font-medium">Welcome to PassMan, the ultimate solution for managing and securing your passwords. PassMan is a robust and user-friendly website that offers a secure platform to store and access your passwords conveniently. With our advanced encryption techniques and user-friendly interface, you can trust PassMan to keep your sensitive information safe.</p>
         <div class="star flex px-4 py-8 my-6">
+        <a href="{% url 'register' %}">
         <button class="text-black hover:text-white bg-[#B0BEC5]  hover:bg-[#004561] font-bold text-center px-8 py-3 mx-4 rounded ">Register</button>
+        </a>
+        <a href="{% url 'login' %}">
         <button class="text-black hover:text-white bg-[#B0BEC5] hover:bg-[#004561] font-bold text-center px-8 py-3 rounded">logIn</button>
+        </a>
         </div>
     </div>
     <div class="right">
