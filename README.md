@@ -1,4 +1,4 @@
-# Get started .
+# Get started
 
 
 ## How to run this project locally:
@@ -21,7 +21,6 @@ For Windows:
 ```
 py -m venv .venv
 source .venv/Scripts/activate
-
 ```
 
 - Install the necessary libraries.
