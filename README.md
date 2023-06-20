@@ -28,7 +28,6 @@ source .venv/Scripts/activate
 
 ```
 pip install -r requirements/development.txt
-npm install bootstrap
 ```
 
 - Migrate Django models.
