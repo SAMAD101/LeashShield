@@ -8,38 +8,42 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The given username must be set')
         if not email:
             raise ValueError('The given email must be set')
-        email = self.normalize_email(email)
         
+        email = self.normalize_email(email)
         user = self.model(
             username=username,
             email=email,
             **extra_fields
             )
         user.set_password(password)
-        user.save()
+        user.save(using=self._db)
         return user
     
-    def create_user(self, username, email, masterpassword, **extra_fields):
+    def create_user(self, username, email, password, **extra_fields):
         extra_fields.setdefault('is_staff',False)
         extra_fields.setdefault('is_superuser',False)
         extra_fields.setdefault('is_active',True)
-        return self._create_user(username, email, masterpassword, **extra_fields)
+        return self._create_user(username, email, password, **extra_fields)
     
-    def create_superuser(self, username, email, masterpassword, **extra_fields):
+    def create_superuser(self, username, email, password, **extra_fields):
         extra_fields.setdefault('is_staff',True)
         extra_fields.setdefault('is_superuser',True)
         extra_fields.setdefault('is_active',True)
-        return self._create_user(username, email, masterpassword, **extra_fields)
+        return self._create_user(username, email, password, **extra_fields)
     
-class CustomUser(AbstractUser):
+class CustomUser(AbstractUser, PermissionsMixin):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
-
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    
     objects = CustomUserManager()
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ['user', 'email']    
+    REQUIRED_FIELDS = []    
+    
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'

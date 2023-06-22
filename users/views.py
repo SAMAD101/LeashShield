@@ -9,7 +9,7 @@ def LoginView(response):
         username = response.POST.get('username')
         email = response.POST.get('email')
         password = response.POST.get('password') # masterpassword
-        user = authenticate(response, username=username, password=password)
+        user = authenticate(response, username=username, email=email, password=password)
         
         if user is not None:
             if user.is_active:
@@ -21,13 +21,16 @@ def RegisterView(response):
     if response.method == 'POST':
         username = response.POST.get('username')
         email = response.POST.get('email')
-        masterpassword = response.POST.get('masterpassword')
-    
+        mpassword = response.POST.get('mpassword')
+        cmpassword = response.POST.get('cmpassword')
+        
+        if mpassword != cmpassword:
+            return HttpResponse('Passwords do not match')
         if CustomUser.objects.filter(email=email).exists():
             return HttpResponse('User with this email already exist')
         if CustomUser.objects.filter(username=username).exists():
             return HttpResponse('User with this username already exist')
-        user = CustomUser.objects.create_user(username, email, masterpassword)
+        user = CustomUser.objects.create_user(username=username, email=email, password=mpassword)
         user.save()
         return redirect('login')
     return render(response, 'users/register.html')
