@@ -8,3 +8,6 @@ def AboutView(request):
 
 def PrivacyView(request):
     return render(request, 'home/privacy.html', {})
+
+def ContactView(request):
+    return render(request, 'home/contact.html', {})
