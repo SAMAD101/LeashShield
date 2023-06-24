@@ -44,9 +44,7 @@ def RegisterView(request):
 
 def DashboardView(request):
     user = CustomUser.objects.filter(username=request.GET.get('username'))
-    passwords = [];
-    for password in Passwords.objects.filter(user=user[0]):
-        passwords.append(password)
+    passwords = [password for password in Passwords.objects.filter(user=user[0])];
     
     contexts = {
         'passwords': passwords,
