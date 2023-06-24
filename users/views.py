@@ -6,15 +6,21 @@ from django.contrib.auth import authenticate, login
 
 def LoginView(response):
     if response.method == 'POST':
-        username = response.POST.get('username')
-        email = response.POST.get('email')
+        identity = response.POST.get('identity')
         password = response.POST.get('password') # masterpassword
+        
+        if '@' in identity:
+            email = identity
+            username = CustomUser.objects.get(email=email).username
+        else:
+            username = identity
+            email = CustomUser.objects.get(username=username).email
         user = authenticate(response, username=username, email=email, password=password)
         
         if user is not None:
             if user.is_active:
                 login(response, user)
-                return redirect('/user/dashboard/?username='+username)
+                return HttpResponse(user)
     return render(response, 'users/login.html')
 
 def RegisterView(request):
