@@ -17,23 +17,24 @@ def LoginView(response):
                 return redirect('/user/dashboard/?username='+username)
     return render(response, 'users/login.html')
 
-def RegisterView(response):
-    if response.method == 'POST':
-        username = response.POST.get('username')
-        email = response.POST.get('email')
-        mpassword = response.POST.get('mpassword')
-        cmpassword = response.POST.get('cmpassword')
+def RegisterView(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        mpassword = request.POST.get('mpassword')
+        cmpassword = request.POST.get('cmpassword')
         
         if mpassword != cmpassword:
             return HttpResponse('Passwords do not match')
-        if CustomUser.objects.filter(email=email).exists():
+        elif CustomUser.objects.filter(email=email).exists():
             return HttpResponse('User with this email already exist')
-        if CustomUser.objects.filter(username=username).exists():
+        elif CustomUser.objects.filter(username=username).exists():
             return HttpResponse('User with this username already exist')
-        user = CustomUser.objects.create_user(username=username, email=email, password=mpassword)
-        user.save()
-        return redirect('login')
-    return render(response, 'users/register.html')
+        else:
+            user = CustomUser.objects.create_user(username=username, email=email, password=mpassword)
+            user.save()
+            return HttpResponse('User created')
+    return render(request, 'users/register.html')
 
 def DashboardView(request):
     user = CustomUser.objects.filter(username=request.GET.get('username'))
