@@ -20,7 +20,7 @@ def LoginView(response):
         if user is not None:
             if user.is_active:
                 login(response, user)
-                return HttpResponse(user)
+                return redirect('dashboard')
     return render(response, 'users/login.html')
 
 def RegisterView(request):
@@ -39,12 +39,12 @@ def RegisterView(request):
         else:
             user = CustomUser.objects.create_user(username=username, email=email, password=mpassword)
             user.save()
-            return HttpResponse('User created')
+            return redirect('login')
     return render(request, 'users/register.html')
 
 def DashboardView(request):
     user = CustomUser.objects.filter(username=request.GET.get('username'))
-    passwords = [password for password in PasswordEntry.objects.filter(user=user[0])];
+    passwords = [password for password in PasswordEntry.objects.filter(user=user)];
     
     contexts = {
         'passwords': passwords,

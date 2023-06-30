@@ -25,13 +25,14 @@
           <input type="password" class="form-control" name="mpassword" id="mpassword">
         </div>
         <div class="mb-3">
-            <label for="cmpassword" class="form-label">Master password</label>
+            <label for="cmpassword" class="form-label">Confirm Master password</label>
             <input type="password" class="form-control" name="cmpassword" id="cmpassword">
           </div>
         <div class="card-body d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
+      <a href="{% url 'login' %}" class="link-underline-opacity-0 link-offset-1-hover">Already have an account? Login</a>
     </div>
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
