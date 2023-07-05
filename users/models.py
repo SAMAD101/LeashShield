@@ -58,8 +58,5 @@ class PasswordEntry(models.Model):
     url = models.URLField()
     saved_password = models.CharField(max_length=255)
     date_added = models.DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        self.saved_password = make_password(self.saved_password)
-        super().save(*args, **kwargs)
+        
     

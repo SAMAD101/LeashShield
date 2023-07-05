@@ -1,8 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'users/base.html' %}
 
 {% block title %}Dashboard | {{ user.username }} | PassMan{% endblock title %}
 
 {% block content %}
 
+{% for password in passwords %}
+    <ul>
+        <li>{{ password.url }}</li>
+        <li>{{ password.saved_password }}</li>
+        <li>{{ password.date_added }}</li>
+        {% comment %} <a href="{% url 'passwords:edit' password.id %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'passwords:delete' password.id %}" class="btn btn-danger">Delete</a> {% endcomment %}
+        </ul>
+
+{% endfor %}
 
 {% endblock content %}

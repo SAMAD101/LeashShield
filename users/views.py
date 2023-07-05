@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import CustomUser, PasswordEntry
 from django.contrib.auth import authenticate, login
@@ -20,7 +20,7 @@ def LoginView(response):
         if user is not None:
             if user.is_active:
                 login(response, user)
-                return redirect('dashboard')
+                return redirect('dashboard', username=username)
     return render(response, 'users/login.html')
 
 def RegisterView(request):
@@ -42,12 +42,12 @@ def RegisterView(request):
             return redirect('login')
     return render(request, 'users/register.html')
 
-def DashboardView(request):
-    user = CustomUser.objects.filter(username=request.GET.get('username'))
-    passwords = [password for password in PasswordEntry.objects.filter(user=user)];
+def DashboardView(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    passwords = PasswordEntry.objects.filter(user=user);
     
     contexts = {
         'passwords': passwords,
-        'user': request.user,
+        'user': user.username,
     }
     return render(request, 'users/dashboard.html', contexts)
