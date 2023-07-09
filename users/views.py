@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import CustomUser, PasswordEntry
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
-
-def LoginView(response):
-    if response.method == 'POST':
-        identity = response.POST.get('identity')
-        password = response.POST.get('password') # masterpassword
+def LoginView(request):
+    if request.method == 'POST':
+        identity = request.POST.get('identity')
+        password = request.POST.get('password') # masterpassword
         
         if '@' in identity:
             email = identity
@@ -15,13 +15,13 @@ def LoginView(response):
         else:
             username = identity
             email = CustomUser.objects.get(username=username).email
-        user = authenticate(response, username=username, email=email, password=password)
+        user = authenticate(request, username=username, email=email, password=password)
         
         if user is not None:
             if user.is_active:
-                login(response, user)
+                login(request, user)
                 return redirect('dashboard', username=username)
-    return render(response, 'users/login.html')
+    return render(request, 'users/login.html')
 
 def RegisterView(request):
     if request.method == 'POST':
@@ -42,8 +42,9 @@ def RegisterView(request):
             return redirect('login')
     return render(request, 'users/register.html')
 
+@login_required
 def DashboardView(request, username):
-    user = get_object_or_404(CustomUser, username=username)
+    user = request.user
     passwords = PasswordEntry.objects.filter(user=user);
     
     contexts = {
