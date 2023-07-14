@@ -35,7 +35,7 @@
 
     {% for password in passwords %}
         <ul>
-            {{ password.id }}. {{ password.url }} - {{ password.saved_password }} <br>
+            {{ forloop.counter }}. {{ password.url }} - {{ password.saved_password }} <br>
             {{ password.date_added }}
 
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_modal">Edit</button>

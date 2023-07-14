@@ -50,6 +50,7 @@ def DashboardView(request, username):
     passwords = PasswordEntry.objects.filter(user=user);
     
     contexts = {
+        'count': range(1, PasswordEntry.objects.filter(user=user).count()+1),
         'passwords': passwords,
         'user': user.username,
     }
