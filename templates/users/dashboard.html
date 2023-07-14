@@ -1,18 +1,50 @@
 {% extends 'users/base.html' %}
-
+{% load static %}
 {% block title %}Dashboard | {{ user.username }} | PassMan{% endblock title %}
 
 {% block content %}
 
-{% for password in passwords %}
-    <ul>
-        <li>{{ password.url }}</li>
-        <li>{{ password.saved_password }}</li>
-        <li>{{ password.date_added }}</li>
-        {% comment %} <a href="{% url 'passwords:edit' password.id %}" class="btn btn-primary">Edit</a>
-        <a href="{% url 'passwords:delete' password.id %}" class="btn btn-danger">Delete</a> {% endcomment %}
+<div class="password-entry">
+    {% for password in passwords %}
+        <ul>
+            {{ password.id }}. {{ password.url }} - {{ password.saved_password }} <br>
+            {{ password.date_added }}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_modal" data-bs-whatever="@mdo">Edit</button>
+            <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="edit_modal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5">Edit <sub>{{ password.url }}</sub></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST">
+                      {% csrf_token %}
+                      <input type="hidden" name="purpose" value="edit_password">
+                      <input type="hidden" name="id" value="{{ password.id }}">
+                      <input type="hidden" name="username" value="{{ user }}">
+                      <div class="mb-3">
+                        <label for="url" class="col-form-label">Change URL:</label>
+                        <input type="text" class="form-control" name="url" id="url" value="{{ password.url }}">
+                      </div>
+                      <div class="mb-3">
+                        <label for="npassword" class="col-form-label">New Password:</label>
+                        <input type="text" class="form-control" name="npassword" id="npassword">
+                      </div>
+                      <div class="mb-3">
+                        <label for="cpassword" class="col-form-label">Confirm Password:</label>
+                        <input type="text" class="form-control" name="cpassword" id="cpassword">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
         </ul>
 
-{% endfor %}
+    {% endfor %}
+</div>
 
+<script src="{% static 'dashboard.js' %}"></script>
 {% endblock content %}

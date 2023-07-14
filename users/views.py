@@ -8,14 +8,16 @@ def LoginView(request):
     if request.method == 'POST':
         identity = request.POST.get('identity')
         password = request.POST.get('password') # masterpassword
-        
-        if '@' in identity:
-            email = identity
-            username = CustomUser.objects.get(email=email).username
-        else:
-            username = identity
-            email = CustomUser.objects.get(username=username).email
-        user = authenticate(request, username=username, email=email, password=password)
+        try: 
+            if '@' in identity:
+                email = identity
+                username = CustomUser.objects.get(email=email).username
+            else:
+                username = identity
+                email = CustomUser.objects.get(username=username).email
+            user = authenticate(request, username=username, email=email, password=password)
+        except:
+            return HttpResponse('User does not exist')
         
         if user is not None:
             if user.is_active:
@@ -51,4 +53,20 @@ def DashboardView(request, username):
         'passwords': passwords,
         'user': user.username,
     }
+    
+    if request.method == 'POST':
+        purpose = request.POST.get('purpose')
+        if purpose == "edit_password":
+            pk = request.POST.get('id')
+            url = request.POST.get('url')
+            username = request.POST.get('username')
+            npassword = request.POST.get('npassword')
+            cpassword = request.POST.get('cpassword')
+            user = CustomUser.objects.get(username=username)
+            if npassword == cpassword:
+                PasswordEntry.objects.filter(pk=pk).update(url=url, saved_password=npassword)
+                return redirect('dashboard', username=username)
+            else:
+                return HttpResponse('Passwords do not match')
+        
     return render(request, 'users/dashboard.html', contexts)
