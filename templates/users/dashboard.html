@@ -5,11 +5,40 @@
 {% block content %}
 
 <div class="password-entry">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_modal">Add</button>
+  <div class="modal fade" id="add_modal" tabindex="-1" aria-labelledby="add_modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Add password</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="purpose" value="add_password">
+            <input type="hidden" name="username" value="{{ user }}">
+            <div class="mb-3">
+              <label for="url" class="col-form-label">URL:</label>
+              <input type="text" class="form-control" name="url" id="url">
+            </div>
+            <div class="mb-3">
+              <label for="spassword" class="col-form-label">New Password:</label>
+              <input type="text" class="form-control" name="spassword" id="spassword">
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
     {% for password in passwords %}
         <ul>
             {{ password.id }}. {{ password.url }} - {{ password.saved_password }} <br>
             {{ password.date_added }}
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_modal" data-bs-whatever="@mdo">Edit</button>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_modal">Edit</button>
             <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="edit_modal" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -41,6 +70,7 @@
                 </div>
               </div>
             </div>
+
             <form method="POST">
               {% csrf_token %}
               <input type="hidden" name="purpose" value="delete_password">
@@ -48,7 +78,6 @@
               <input type="hidden" name="username" value="{{ user }}">
               <button type="submit" class="btn btn-danger">Delete</button>
             </form>
-
         </ul>
 
     {% endfor %}

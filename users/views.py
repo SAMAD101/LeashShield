@@ -57,6 +57,14 @@ def DashboardView(request, username):
     if request.method == 'POST':
         purpose = request.POST.get('purpose')
         
+        if purpose == "add_password":
+            PasswordEntry.objects.create(
+                user=user,
+                url=request.POST.get('url'),
+                saved_password=request.POST.get('spassword'),
+            )
+            return redirect('dashboard', username=username)
+        
         if purpose == "edit_password":
             pk = request.POST.get('id')
             url = request.POST.get('url')
@@ -74,4 +82,5 @@ def DashboardView(request, username):
             pk = request.POST.get('id')
             PasswordEntry.objects.filter(pk=pk).delete()
             return redirect('dashboard', username=username)
+        
     return render(request, 'users/dashboard.html', contexts)
