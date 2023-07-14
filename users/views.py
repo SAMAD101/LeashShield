@@ -56,6 +56,7 @@ def DashboardView(request, username):
     
     if request.method == 'POST':
         purpose = request.POST.get('purpose')
+        
         if purpose == "edit_password":
             pk = request.POST.get('id')
             url = request.POST.get('url')
@@ -69,4 +70,8 @@ def DashboardView(request, username):
             else:
                 return HttpResponse('Passwords do not match')
         
+        if purpose == "delete_password":
+            pk = request.POST.get('id')
+            PasswordEntry.objects.filter(pk=pk).delete()
+            return redirect('dashboard', username=username)
     return render(request, 'users/dashboard.html', contexts)

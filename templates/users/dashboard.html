@@ -41,6 +41,14 @@
                 </div>
               </div>
             </div>
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="purpose" value="delete_password">
+              <input type="hidden" name="id" value="{{ password.id }}">
+              <input type="hidden" name="username" value="{{ user }}">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+
         </ul>
 
     {% endfor %}
