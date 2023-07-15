@@ -50,7 +50,6 @@ def DashboardView(request, username):
     passwords = PasswordEntry.objects.filter(user=user);
     
     contexts = {
-        'count': range(1, PasswordEntry.objects.filter(user=user).count()+1),
         'passwords': passwords,
         'user': user.username,
     }
@@ -69,15 +68,9 @@ def DashboardView(request, username):
         if purpose == "edit_password":
             pk = request.POST.get('id')
             url = request.POST.get('url')
-            username = request.POST.get('username')
             npassword = request.POST.get('npassword')
-            cpassword = request.POST.get('cpassword')
-            user = CustomUser.objects.get(username=username)
-            if npassword == cpassword:
-                PasswordEntry.objects.filter(pk=pk).update(url=url, saved_password=npassword)
-                return redirect('dashboard', username=username)
-            else:
-                return HttpResponse('Passwords do not match')
+            PasswordEntry.objects.filter(pk=pk).update(url=url, saved_password=npassword)
+            return redirect('dashboard', username=username)
         
         if purpose == "delete_password":
             pk = request.POST.get('id')
