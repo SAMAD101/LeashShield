@@ -4,29 +4,29 @@
 
 {% block content %}
 
-<div class="aligns-items-center justify-content-center card mx-auto" style="width: 18rem;">
+<div class="aligns-items-center justify-content-center card mx-auto" style="width: 25rem;">
     <div class="card-body">
       <h2 class="card-title">Register</h2>
       <form action="{% url 'register' %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
+        <div class="form-floating mb-3">
           <input type="username" class="form-control" name="username" id="username">
+          <label for="username" class="form-label">Username</label>
           <div id="username" class="form-text">Your unique username</div>
         </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
+        <div class="form-floating mb-3">
           <input type="email" class="form-control" name="email" id="email">
+          <label for="email" class="form-label">Email</label>
           <div id="email" class="form-text">Your email</div>
         </div>
-        <div class="mb-3">
-          <label for="mpassword" class="form-label">Master password</label>
+        <div class="form-floating mb-3">
           <input type="password" class="form-control" name="mpassword" id="mpassword">
+          <label for="mpassword" class="form-label">Master password</label>
         </div>
-        <div class="mb-3">
-            <label for="cmpassword" class="form-label">Confirm Master password</label>
+        <div class="form-floating mb-3">
             <input type="password" class="form-control" name="cmpassword" id="cmpassword">
+            <label for="cmpassword" class="form-label">Confirm Master password</label>
           </div>
         <div class="card-body d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">Submit</button>

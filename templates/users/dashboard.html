@@ -1,11 +1,11 @@
 {% extends 'users/base.html' %}
 {% load static %}
-{% block title %}Dashboard | {{ user.username }} | PassMan{% endblock title %}
+{% block title %}Dashboard | {{ user.username }} | LeashShield{% endblock title %}
 
 {% block content %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'dashboard' username=user%}">LeashShield</a>
+    <a class="navbar-brand" href="{% url 'dashboard' username=user %}">LeashShield</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -62,47 +62,55 @@
 
 <div class="password-entry">
     {% for password in passwords %}
-        <ul>
-            {{ forloop.counter }}. {{ password.url }} - {{ password.saved_password }} <br>
-            {{ password.date_added }}
-
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_modal_{{ password.id }}">Edit</button>
-            <div class="modal fade" id="edit_modal_{{ password.id }}" tabindex="-1" aria-labelledby="edit_modal_{{ password.id }}" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5">Edit <sub>{{ password.url }}</sub></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form method="POST">
-                      {% csrf_token %}
-                      {{ form.as_p }}
-                      <input type="hidden" name="purpose" value="edit_password">
-                      <input type="hidden" name="id" value="{{ password.id }}">
-                      <div class="mb-3">
-                        <label for="url" class="col-form-label">Change URL:</label>
-                        <input type="text" class="form-control" name="url" id="url" value="{{ password.url }}">
-                      </div>
-                      <div class="mb-3">
-                        <label for="npassword" class="col-form-label">New Password:</label>
-                        <input type="text" class="form-control" name="npassword" id="npassword">
-                      </div>
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
-                  </div>
+      <div class="card p-1 m-1" style="width: 20rem;">
+        <ul class="list-group-flush">
+          <li class="list-group-item">{{ forloop.counter }}. {{ password.url }} - {{ password.saved_password }}</li>
+          <li class="list-group-item">{{ password.date_added }}</li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_modal_{{ password.id }}">Edit</button>
+              </div>
+              <div class="col">
+                <form method="POST">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <input type="hidden" name="purpose" value="delete_password">
+                  <input type="hidden" name="id" value="{{ password.id }}">
+                  <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                </form> 
+              </div>
+            </div>
+          </li>
+        </ul>
+          <div class="modal fade" id="edit_modal_{{ password.id }}" tabindex="-1" aria-labelledby="edit_modal_{{ password.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5">Edit <sub>{{ password.url }}</sub></h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="hidden" name="purpose" value="edit_password">
+                    <input type="hidden" name="id" value="{{ password.id }}">
+                    <div class="mb-3">
+                      <label for="url" class="col-form-label">Change URL:</label>
+                      <input type="text" class="form-control" name="url" id="url" value="{{ password.url }}">
+                    </div>
+                    <div class="mb-3">
+                      <label for="npassword" class="col-form-label">New Password:</label>
+                      <input type="text" class="form-control" name="npassword" id="npassword">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                  </form>
                 </div>
               </div>
             </div>
-            <form method="POST">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <input type="hidden" name="purpose" value="delete_password">
-              <input type="hidden" name="id" value="{{ password.id }}">
-              <input type="hidden" name="username" value="{{ user }}">
-              <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-        </ul>
+          </div>
+      </div>
     {% endfor %}
 </div>
 
