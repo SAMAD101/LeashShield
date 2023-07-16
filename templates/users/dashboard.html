@@ -25,7 +25,7 @@
             <li><a class="dropdown-item" href="{% url 'privacy' %}">Privacy policy</a></li>
             <li><a class="dropdown-item" href="{% url 'contact' %}">Contact</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Log out</a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Log out</a></li>
           </ul>
         </li>
       </ul>
@@ -45,13 +45,13 @@
           {% csrf_token %}
           {{ form.as_p }}
           <input type="hidden" name="purpose" value="add_password">
-          <div class="mb-3">
-            <label for="url" class="col-form-label">URL:</label>
+          <div class="form-floating mb-3">
             <input type="text" class="form-control" name="url" id="url">
+            <label for="url" class="col-form-label">URL:</label>
           </div>
-          <div class="mb-3">
-            <label for="spassword" class="col-form-label">New Password:</label>
+          <div class="form-floating mb-3">
             <input type="text" class="form-control" name="spassword" id="spassword">
+            <label for="spassword" class="col-form-label">Password:</label>
           </div>
           <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
@@ -83,33 +83,33 @@
             </div>
           </li>
         </ul>
-          <div class="modal fade" id="edit_modal_{{ password.id }}" tabindex="-1" aria-labelledby="edit_modal_{{ password.id }}" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5">Edit <sub>{{ password.url }}</sub></h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form method="POST">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="hidden" name="purpose" value="edit_password">
-                    <input type="hidden" name="id" value="{{ password.id }}">
-                    <div class="mb-3">
-                      <label for="url" class="col-form-label">Change URL:</label>
-                      <input type="text" class="form-control" name="url" id="url" value="{{ password.url }}">
-                    </div>
-                    <div class="mb-3">
-                      <label for="npassword" class="col-form-label">New Password:</label>
-                      <input type="text" class="form-control" name="npassword" id="npassword">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                  </form>
-                </div>
+        <div class="modal fade" id="edit_modal_{{ password.id }}" tabindex="-1" aria-labelledby="edit_modal_{{ password.id }}" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5">Edit <sub>{{ password.url }}</sub></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form method="POST">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <input type="hidden" name="purpose" value="edit_password">
+                  <input type="hidden" name="id" value="{{ password.id }}">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="url" id="url" value="{{ password.url }}">
+                    <label for="url" class="col-form-label">Change URL:</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="npassword" id="npassword">
+                    <label for="npassword" class="col-form-label">New Password:</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
               </div>
             </div>
           </div>
+        </div>
       </div>
     {% endfor %}
 </div>

@@ -6,6 +6,7 @@
 <div class="aligns-items-center justify-content-center card mx-auto" style="width: 25rem;">
     <div class="card-body">
       <h2 class="card-title">Log in</h2>
+      <button class="btn btn-primary" 
       <form action="{% url 'login' %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
