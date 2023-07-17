@@ -6,7 +6,6 @@
 <div class="aligns-items-center justify-content-center card mx-auto" style="width: 25rem;">
     <div class="card-body">
       <h2 class="card-title">Log in</h2>
-      <button class="btn btn-primary" 
       <form action="{% url 'login' %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
@@ -23,7 +22,8 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
-      <a href="{% url 'register' %}" class="link-underline-opacity-0 link-offset-1-hover">Don't have an account? Register</a>
+      <a href="{% url 'register' %}" class="link-underline-opacity-0 link-offset-1-hover">Don't have an account? Register</a><br>
+      <a href="{% url 'home' %}" class="link-underline-opacity-0 link-offset-1-hover">Go back to home</a>
     </div>
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
