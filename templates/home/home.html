@@ -3,6 +3,20 @@
 {% block title %}PassMan{% endblock title %}
 
 {% block content %}
-
-
+<div class="center">
+    <div class="card m-3" style="width: 18rem;">
+        <div class="card-body m-3">
+            <h5 class="card-title">Log In</h5>
+            <p class="card-text">Access your vault now.</p>
+            <a href="{% url 'login' %}" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i></a>
+        </div>
+    </div>
+    <div class="card m-3" style="width: 18rem;">
+        <div class="card-body m-3">
+            <h5 class="card-title">Register</h5>
+            <p class="card-text">Get you very own vault now.</p>
+            <a href="{% url 'register' %}" class="btn btn-primary"><i class="bi bi-person-plus"></i></a>
+        </div>
+    </div>
+</div>
 {% endblock content %}
