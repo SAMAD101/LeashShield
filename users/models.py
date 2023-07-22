@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
-from django.contrib.auth.hashers import make_password
-
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+import os
 
 class CustomUserManager(BaseUserManager):
     def _create_user(self, username, email, password, **extra_fields):

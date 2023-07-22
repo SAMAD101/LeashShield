@@ -43,10 +43,14 @@ def derive_encryption_key(sender, user, request, **kwargs):
         iterations=100000,
     )
     encryption_key = kdf.derive(user.password.encode('utf-8'))
-
+    
     user.salt = salt
     user.encryption_key = encryption_key
     user.save()
+
+    print('Encryption key derived')
+    print('Salt: ', salt)
+    print('Encryption key: ', encryption_key)
 
 def RegisterView(request):
     if request.method == 'POST':
