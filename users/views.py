@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.dispatch import receiver
 from .models import CustomUser, PasswordEntry
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.signals import user_logged_in
 from django.contrib.auth.decorators import login_required
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+import os
 
 def LoginView(request):
     if request.method == 'POST':
@@ -24,6 +29,24 @@ def LoginView(request):
                 login(request, user)
                 return redirect('dashboard', username=username)
     return render(request, 'users/login.html')
+
+@receiver(user_logged_in)
+def derive_encryption_key(sender, user, request, **kwargs):
+    # Use the user's master password as the input to PBKDF2
+    salt = os.urandom(16)
+
+    # key derivation function (KDF) using HMAC-SHA256
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=100000,
+    )
+    encryption_key = kdf.derive(user.password.encode('utf-8'))
+
+    user.salt = salt
+    user.encryption_key = encryption_key
+    user.save()
 
 def RegisterView(request):
     if request.method == 'POST':

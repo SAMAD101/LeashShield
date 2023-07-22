@@ -40,6 +40,8 @@ class CustomUser(AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    salt = models.BinaryField(blank=True, null=True)
+    encryption_key = models.BinaryField(blank=True, null=True)
     
     objects = CustomUserManager()
     USERNAME_FIELD = 'username'
@@ -49,7 +51,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
-
+        
     def __str__(self):
         return self.username
     
