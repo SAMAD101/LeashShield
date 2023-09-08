@@ -1,13 +1,21 @@
-FROM python:3.8
+# Use an official Python runtime as a parent image
+FROM python:3.11
 
+# Set the working directory in the container
 WORKDIR /app
 
-COPY . . 
+# Copy the current directory contents into the container
+COPY . .
 
-RUN pip install -r requirements/development.txt 
+# Install any required dependencies (e.g., Django dependencies)
+RUN pip install -r requirements.txt
 
-ENV PYTHONDONTWRITEBYTECODE=1
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-ENV PYTHONUNBUFFERED=1
+# Expose the port your application will run on
+EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver"]
+# Command to run your application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
