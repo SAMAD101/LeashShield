@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install any required dependencies (e.g., Django dependencies)
-RUN pip install -r requirements.txt
+RUN pip install -r requirements/development.txt
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
